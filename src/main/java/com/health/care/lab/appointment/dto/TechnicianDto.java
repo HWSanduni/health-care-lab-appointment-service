@@ -1,6 +1,7 @@
 package com.health.care.lab.appointment.dto;
 
 
+import com.health.care.lab.appointment.enums.StatusType;
 import com.health.care.lab.appointment.enums.TestType;
 import java.util.List;
 import lombok.Data;
@@ -13,6 +14,7 @@ public class TechnicianDto {
   private String telNumber;
   private String email;
   private TestType testType;
+  private StatusType status;
 
   private List<AppointmentDto> appointments;
   private List<ReportDto> reports;

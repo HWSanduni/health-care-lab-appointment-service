@@ -1,5 +1,6 @@
 package com.health.care.lab.appointment.entity;
 
+import com.health.care.lab.appointment.enums.StatusType;
 import com.health.care.lab.appointment.enums.TestType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,7 +12,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Set;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "technician")
 public class Technician {
@@ -35,6 +38,10 @@ public class Technician {
   @Column(name = "test_type")
   @Enumerated(EnumType.STRING)
   private TestType testType;
+
+  @Column(name = "status")
+  @Enumerated(EnumType.STRING)
+  private StatusType status;
 
   @OneToMany(mappedBy="technician")
   private Set<Appointment> appointments;

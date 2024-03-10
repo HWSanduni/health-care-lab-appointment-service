@@ -1,6 +1,7 @@
 package com.health.care.lab.appointment.entity;
 
 import com.health.care.lab.appointment.enums.AppointmentType;
+import com.health.care.lab.appointment.enums.StatusType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,7 +13,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "appointment")
 public class Appointment {
@@ -20,6 +23,9 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "appointment")
+    private String appointmentId;
 
     @Column(name = "appointment_type")
     @Enumerated(EnumType.STRING)
@@ -30,6 +36,10 @@ public class Appointment {
 
     @Column(name = "date")
     private LocalDateTime date;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private StatusType status;
 
     @Column(name = "created_date")
     private LocalDateTime createdDate;

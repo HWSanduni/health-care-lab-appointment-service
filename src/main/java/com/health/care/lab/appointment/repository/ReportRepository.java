@@ -1,5 +1,10 @@
 package com.health.care.lab.appointment.repository;
 
-public interface ReportRepository {
+import com.health.care.lab.appointment.entity.Report;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ReportRepository extends JpaRepository<Report,Long> {
 
 }

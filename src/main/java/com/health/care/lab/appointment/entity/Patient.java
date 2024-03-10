@@ -1,14 +1,19 @@
 package com.health.care.lab.appointment.entity;
 
+import com.health.care.lab.appointment.enums.StatusType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Set;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "patient")
   public class Patient {
@@ -18,10 +23,13 @@ import java.util.Set;
     private Long id;
 
      @Column(name = "patient_Id")
-    private String patientId;
+     private String patientId;
 
      @Column(name = "name")
     private String name;
+
+    @Column(name = "nic")
+    private String nic;
 
     @Column(name = "tel_number")
     private String telNumber;
@@ -37,6 +45,10 @@ import java.util.Set;
 
     @Column(name = "age")
     private String age;
+
+  @Column(name = "status")
+  @Enumerated(EnumType.STRING)
+  private StatusType status;
 
    @OneToMany(mappedBy="patient")
    private Set<Appointment> appointments;
