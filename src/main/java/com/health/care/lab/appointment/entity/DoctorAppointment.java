@@ -1,6 +1,6 @@
 package com.health.care.lab.appointment.entity;
 
-import com.health.care.lab.appointment.enums.AppointmentType;
+
 import com.health.care.lab.appointment.enums.StatusType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,8 +17,8 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "appointment")
-public class Appointment {
+@Table(name = "doc_appointment")
+public class DoctorAppointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -27,9 +27,6 @@ public class Appointment {
     @Column(name = "appointment")
     private String appointmentId;
 
-    @Column(name = "appointment_type")
-    @Enumerated(EnumType.STRING)
-    private AppointmentType appointmentType;
 
     @Column(name = "time")
     private String time;
@@ -55,8 +52,5 @@ public class Appointment {
     @JoinColumn(name="doctor_Id", nullable=false)
     private Doctor doctor;
 
-    @ManyToOne
-    @JoinColumn(name="technician_Id")
-    private Technician technician;
 
 }

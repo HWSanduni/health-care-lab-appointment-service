@@ -10,7 +10,8 @@ import lombok.Data;
 public class TechnicianDto {
   private Long id;
   private String technicianId;
-  private String name;
+  private String firstName;
+  private String lastName;
   private String telNumber;
   private String email;
   private TestType testType;

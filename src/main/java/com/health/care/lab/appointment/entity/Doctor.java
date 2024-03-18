@@ -25,8 +25,11 @@ import lombok.Data;
     @Column(name = "doctor_Id")
     private String doctorID;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
 
     @Column(name = "tel_number")
     private String telNumber;
@@ -42,7 +45,7 @@ import lombok.Data;
   private StatusType status;
 
    @OneToMany(mappedBy="doctor")
-   private Set<Appointment> appointments;
+   private Set<DoctorAppointment> doctorAppointments;
 
   @OneToMany(mappedBy="doctor")
   private Set<Report> reports;

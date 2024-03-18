@@ -3,6 +3,7 @@ package com.health.care.lab.appointment.service.impl;
 import static com.health.care.lab.appointment.util.CommonUtil.generateRandomNumber;
 
 import com.health.care.lab.appointment.dto.DoctorDto;
+import com.health.care.lab.appointment.dto.RegisterRequestDto;
 import com.health.care.lab.appointment.entity.Doctor;
 import com.health.care.lab.appointment.enums.StatusType;
 import com.health.care.lab.appointment.repository.DoctorRepository;
@@ -21,15 +22,14 @@ public class DoctorServiceImpl implements DoctorService {
   private DoctorRepository doctorRepository;
 
   @Override
-  public void saveAndUpdateDoctor(DoctorDto doctorDto) {
-    Doctor doctor = setDoctorDtoData(doctorDto);
+  public void saveAndUpdateDoctor(RegisterRequestDto registerRequestDto) {
+    Doctor doctor = setRegisterData(registerRequestDto);
     if (!ObjectUtils.isEmpty(doctor)){
-      if (doctorDto.getId() == null){
-        doctor.setDoctorID(generateRandomNumber("DOC"));
+      if (registerRequestDto.getId() == null){
         doctor.setStatus(StatusType.ACTIVE);
         doctorRepository.save(doctor);
       }else {
-        doctor.setId(doctorDto.getId());
+        doctor.setId(registerRequestDto.getId());
         doctorRepository.save(doctor);
       }
     }
@@ -66,10 +66,17 @@ public class DoctorServiceImpl implements DoctorService {
     }
   }
 
+  @Override
+  public void getRegisterData(RegisterRequestDto registerRequestDto) {
+
+  }
+
   public DoctorDto setDoctorEntityData(Doctor doctor){
     DoctorDto doctorDto = new DoctorDto();
     doctorDto.setId(doctor.getId());
-    doctorDto.setName(doctor.getName());
+    doctorDto.setDoctorID(doctor.getDoctorID());
+    doctorDto.setFirstName(doctor.getFirstName());
+    doctorDto.setLastName(doctor.getLastName());
     doctorDto.setTelNumber(doctor.getTelNumber());
     doctorDto.setNic(doctor.getNic());
     doctorDto.setEmail(doctor.getEmail());
@@ -78,10 +85,23 @@ public class DoctorServiceImpl implements DoctorService {
   }
   public Doctor setDoctorDtoData(DoctorDto doctorDto){
     Doctor doctor = new Doctor();
-    doctor.setName(doctorDto.getName());
+    doctor.setFirstName(doctorDto.getFirstName());
+    doctor.setLastName(doctorDto.getLastName());
     doctor.setTelNumber(doctorDto.getTelNumber());
     doctor.setNic(doctorDto.getNic());
     doctor.setEmail(doctorDto.getEmail());
     return doctor;
   }
+
+  public Doctor setRegisterData(RegisterRequestDto registerRequestDto){
+    Doctor doctor = new Doctor();
+    doctor.setDoctorID(registerRequestDto.getUserId());
+    doctor.setFirstName(registerRequestDto.getFirstName());
+    doctor.setLastName(registerRequestDto.getLastName());
+    doctor.setTelNumber(registerRequestDto.getTelNumber());
+    doctor.setNic(registerRequestDto.getNic());
+    doctor.setEmail(registerRequestDto.getEmail());
+    return doctor;
+  }
+
 }

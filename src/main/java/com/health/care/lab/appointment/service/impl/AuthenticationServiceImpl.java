@@ -10,7 +10,9 @@ import com.health.care.lab.appointment.dto.response.AuthenticationResponse;
 import com.health.care.lab.appointment.enums.UserType;
 import com.health.care.lab.appointment.repository.UserRepository;
 import com.health.care.lab.appointment.service.AuthenticationService;
+import com.health.care.lab.appointment.service.DoctorService;
 import com.health.care.lab.appointment.service.PatientService;
+import com.health.care.lab.appointment.service.TechnicianService;
 import com.health.care.lab.appointment.service.UserService;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
   @Autowired
   private PatientService patientService;
+
+  @Autowired
+  private DoctorService doctorService;
+
+  @Autowired
+  private TechnicianService technicianService;
   
   @Autowired
   AutUserDetailsImpl autUserDetails;
@@ -69,24 +77,25 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   @Override
   public AuthenticationResponse singUp(RegisterRequestDto registerRequestDto) {
 
-    String userId = generateRandomNumber("PAT");
+    String userId = null;
 
-    PatientDto patientDto = new PatientDto();
-    patientDto.setPatientId(userId);
-    patientDto.setName(registerRequestDto.getName());
-    patientDto.setAddress(registerRequestDto.getAddress());
-    patientDto.setEmail(registerRequestDto.getEmail());
-    patientDto.setAge(registerRequestDto.getAge());
-    patientDto.setTelNumber(registerRequestDto.getTelNumber());
-    patientDto.setGender(registerRequestDto.getGender());
-    patientDto.setNic(registerRequestDto.getNic());
-
-    patientService.saveAndUpdatePatient(patientDto);
-
+    if (registerRequestDto.getUserType().toString().equals("DOCTOR")){
+      userId=generateRandomNumber("DOC");
+      registerRequestDto.setUserId(userId);
+      doctorService.saveAndUpdateDoctor(registerRequestDto);
+    } else if (registerRequestDto.getUserType().toString().equals("PATIENT")) {
+      userId=generateRandomNumber("PAT");
+      registerRequestDto.setUserId(userId);
+      patientService.saveAndUpdatePatient(registerRequestDto);
+    } else if (registerRequestDto.getUserType().toString().equals("TECHNICIAN")) {
+      userId=generateRandomNumber("TEC");
+      registerRequestDto.setUserId(userId);
+      technicianService.saveAndUpdateTechnician(registerRequestDto);
+    }
     UserDto userDto = new UserDto();
     userDto.setUserName(registerRequestDto.getUserName());
     userDto.setPassword(passwordEncoder.encode(registerRequestDto.getPassword()));
-    userDto.setUserType(UserType.PATIENT);
+    userDto.setUserType(registerRequestDto.getUserType());
     userDto.setUserId(userId);
 
     userService.saveUser(userDto);

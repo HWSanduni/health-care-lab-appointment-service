@@ -1,6 +1,7 @@
 package com.health.care.lab.appointment.controller;
 
 import com.health.care.lab.appointment.dto.PatientDto;
+import com.health.care.lab.appointment.dto.RegisterRequestDto;
 import com.health.care.lab.appointment.dto.response.LabAppointmentResponse;
 import com.health.care.lab.appointment.service.PatientService;
 import java.util.List;
@@ -29,11 +30,11 @@ public class PatientController {
   private PatientService patientService;
 
   @PostMapping("/save-patient")
-  public ResponseEntity<LabAppointmentResponse> savePatient(@RequestBody PatientDto patientDto){
-    LOGGER.info("Save patient request :request={}", patientDto);
+  public ResponseEntity<LabAppointmentResponse> savePatient(@RequestBody RegisterRequestDto registerRequestDto){
+    LOGGER.info("Save patient request :request={}", registerRequestDto);
     LabAppointmentResponse labAppointmentResponse = new LabAppointmentResponse();
     try {
-      patientService.saveAndUpdatePatient(patientDto);
+      patientService.saveAndUpdatePatient(registerRequestDto);
       labAppointmentResponse.setStatus(HttpStatus.OK);
       labAppointmentResponse.setMessage("Patient saved successfully");
     }catch (Exception e){
@@ -70,11 +71,11 @@ public class PatientController {
   }
 
   @PutMapping("/update-patient")
-  public ResponseEntity<LabAppointmentResponse> updatePatient(@RequestBody PatientDto patientDto){
-    LOGGER.info("Update patient  :request={}", patientDto);
+  public ResponseEntity<LabAppointmentResponse> updatePatient(@RequestBody RegisterRequestDto registerRequestDto){
+    LOGGER.info("Update patient  :request={}", registerRequestDto);
     LabAppointmentResponse labAppointmentResponse = new LabAppointmentResponse();
     try {
-      patientService.saveAndUpdatePatient(patientDto);
+      patientService.saveAndUpdatePatient(registerRequestDto);
       labAppointmentResponse.setStatus(HttpStatus.OK);
       labAppointmentResponse.setMessage("Patient update successfully");
     }catch (Exception e){

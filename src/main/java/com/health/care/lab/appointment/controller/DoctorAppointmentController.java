@@ -2,7 +2,7 @@ package com.health.care.lab.appointment.controller;
 
 import com.health.care.lab.appointment.dto.AppointmentDto;
 import com.health.care.lab.appointment.dto.response.LabAppointmentResponse;
-import com.health.care.lab.appointment.service.AppointmentService;
+import com.health.care.lab.appointment.service.DoctorAppointmentService;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/v1/appointment")
+@RequestMapping("/v1/doc-appointment")
 @CrossOrigin
-public class AppointmentController {
-  private static final Logger LOGGER = LoggerFactory.getLogger(AppointmentController.class);
+public class DoctorAppointmentController {
+  private static final Logger LOGGER = LoggerFactory.getLogger(DoctorAppointmentController.class);
 
   @Autowired
-  private AppointmentService AppointmentService;
+  private DoctorAppointmentService DoctorAppointmentService;
 
   @PostMapping("/save-appointment")
   public ResponseEntity<LabAppointmentResponse> saveAppointment(@RequestBody AppointmentDto AppointmentDto){
@@ -34,7 +34,7 @@ public class AppointmentController {
     LOGGER.info("Save appointment  :request={}", AppointmentDto);
     LabAppointmentResponse labAppointmentResponse = new LabAppointmentResponse();
     try {
-      AppointmentService.saveAndUpdateAppointment(AppointmentDto);
+      DoctorAppointmentService.saveAndUpdateAppointment(AppointmentDto);
       labAppointmentResponse.setStatus(HttpStatus.OK);
       labAppointmentResponse.setMessage("Appointment saved successfully");
     }catch (Exception e){
@@ -52,7 +52,7 @@ public class AppointmentController {
     LOGGER.info("Get appointment request  :name={} | nic={} | AppointmentId={}",name,nic,AppointmentId);
     LabAppointmentResponse labAppointmentResponse = new LabAppointmentResponse();
     try {
-      AppointmentDto AppointmentDto = AppointmentService.getAppointment(name,nic,AppointmentId);
+      AppointmentDto AppointmentDto = DoctorAppointmentService.getAppointment(name,nic,AppointmentId);
       labAppointmentResponse.setStatus(HttpStatus.OK);
       labAppointmentResponse.setMessage("Appointment detail retrieved successfully");
       labAppointmentResponse.setData(AppointmentDto);
@@ -69,7 +69,7 @@ public class AppointmentController {
     LOGGER.info("Get all appointment request");
     LabAppointmentResponse labAppointmentResponse = new LabAppointmentResponse();
     try {
-      List<AppointmentDto> AppointmentDtoList = AppointmentService.getAllAppointment();
+      List<AppointmentDto> AppointmentDtoList = DoctorAppointmentService.getAllAppointment();
       labAppointmentResponse.setStatus(HttpStatus.OK);
       labAppointmentResponse.setMessage("Appointments details retrieved successfully");
       labAppointmentResponse.setData(AppointmentDtoList);
@@ -86,7 +86,7 @@ public class AppointmentController {
     LOGGER.info("Update Appointment  :request={}", AppointmentDto);
     LabAppointmentResponse labAppointmentResponse = new LabAppointmentResponse();
     try {
-      AppointmentService.saveAndUpdateAppointment(AppointmentDto);
+      DoctorAppointmentService.saveAndUpdateAppointment(AppointmentDto);
       labAppointmentResponse.setStatus(HttpStatus.OK);
       labAppointmentResponse.setMessage("Appointment update successfully");
     }catch (Exception e){
@@ -102,7 +102,7 @@ public class AppointmentController {
     LOGGER.info("Delete Appointment  :AppointmentId={}", AppointmentId);
     LabAppointmentResponse labAppointmentResponse = new LabAppointmentResponse();
     try {
-      AppointmentService.deleteAppointment(AppointmentId);
+      DoctorAppointmentService.deleteAppointment(AppointmentId);
       labAppointmentResponse.setStatus(HttpStatus.OK);
       labAppointmentResponse.setMessage("Appointment delete successfully");
     }catch (Exception e){

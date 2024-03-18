@@ -18,10 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("v1/report")
-@CrossOrigin
+@CrossOrigin("*")
 public class ReportController {
   private static final Logger LOGGER = LoggerFactory.getLogger(ReportController.class);
 
@@ -29,11 +30,14 @@ public class ReportController {
   private ReportService reportService;
 
   @PostMapping("/save-report")
-  public ResponseEntity<LabAppointmentResponse> saveReport(@RequestBody ReportDto reportDto){
+  public ResponseEntity<LabAppointmentResponse> saveReport(@RequestParam MultipartFile file, @RequestBody ReportDto reportDto){
 
     LOGGER.info("Save report  :request={}", reportDto);
     LabAppointmentResponse labAppointmentResponse = new LabAppointmentResponse();
     try {
+      String fileName = reportDto.getPatient().getPatientId() + "_" +file.getName();
+      reportService.uploadFile(file,fileName);
+      reportDto.setContent(fileName);
       reportService.saveAndUpdateReport(reportDto);
       labAppointmentResponse.setStatus(HttpStatus.OK);
       labAppointmentResponse.setMessage("Report saved successfully");

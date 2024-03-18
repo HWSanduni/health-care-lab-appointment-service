@@ -1,6 +1,7 @@
 package com.health.care.lab.appointment.controller;
 
 import com.health.care.lab.appointment.dto.DoctorDto;
+import com.health.care.lab.appointment.dto.RegisterRequestDto;
 import com.health.care.lab.appointment.dto.response.LabAppointmentResponse;
 import com.health.care.lab.appointment.service.DoctorService;
 import java.util.List;
@@ -30,12 +31,12 @@ public class DoctorController {
       private DoctorService doctorService;
 
       @PostMapping("/save-doctor")
-      public ResponseEntity<LabAppointmentResponse> saveDoctor(@RequestBody DoctorDto doctorDto){
+      public ResponseEntity<LabAppointmentResponse> saveDoctor(@RequestBody RegisterRequestDto registerRequestDto){
 
-        LOGGER.info("Save Doctor  :request={}", doctorDto);
+        LOGGER.info("Save Doctor  :request={}", registerRequestDto);
         LabAppointmentResponse labAppointmentResponse = new LabAppointmentResponse();
         try {
-          doctorService.saveAndUpdateDoctor(doctorDto);
+          doctorService.saveAndUpdateDoctor(registerRequestDto);
           labAppointmentResponse.setStatus(HttpStatus.OK);
           labAppointmentResponse.setMessage("Doctor saved successfully");
         }catch (Exception e){
@@ -83,11 +84,11 @@ public class DoctorController {
        return ResponseEntity.ok(labAppointmentResponse);
       }
      @PutMapping("/update-doctor")
-     public ResponseEntity<LabAppointmentResponse> updateDoctor(@RequestBody DoctorDto doctorDto){
-       LOGGER.info("Update Doctor  :request={}", doctorDto);
+     public ResponseEntity<LabAppointmentResponse> updateDoctor(@RequestBody RegisterRequestDto registerRequestDto){
+       LOGGER.info("Update Doctor  :request={}", registerRequestDto);
        LabAppointmentResponse labAppointmentResponse = new LabAppointmentResponse();
        try {
-         doctorService.saveAndUpdateDoctor(doctorDto);
+         doctorService.saveAndUpdateDoctor(registerRequestDto);
          labAppointmentResponse.setStatus(HttpStatus.OK);
          labAppointmentResponse.setMessage("Doctor update successfully");
        }catch (Exception e){

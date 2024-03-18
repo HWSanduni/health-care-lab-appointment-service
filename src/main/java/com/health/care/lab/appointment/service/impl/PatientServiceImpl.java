@@ -3,6 +3,8 @@ package com.health.care.lab.appointment.service.impl;
 import static com.health.care.lab.appointment.util.CommonUtil.generateRandomNumber;
 
 import com.health.care.lab.appointment.dto.PatientDto;
+import com.health.care.lab.appointment.dto.RegisterRequestDto;
+import com.health.care.lab.appointment.entity.Doctor;
 import com.health.care.lab.appointment.entity.Patient;
 import com.health.care.lab.appointment.enums.StatusType;
 import com.health.care.lab.appointment.repository.PatientRepository;
@@ -21,16 +23,15 @@ public class PatientServiceImpl implements PatientService {
   private PatientRepository patientRepository;
 
   @Override
-  public void saveAndUpdatePatient(PatientDto patientDto) {
+  public void saveAndUpdatePatient(RegisterRequestDto registerRequestDto) {
 
-    Patient patient = setPatientDtoData(patientDto);
+    Patient patient = setRegisterData(registerRequestDto);
     if (!ObjectUtils.isEmpty(patient)){
-      if (patientDto.getId() == null){
-
+      if (registerRequestDto.getId() == null){
         patient.setStatus(StatusType.ACTIVE);
         patientRepository.save(patient);
       }else{
-        patient.setId(patientDto.getId());
+        patient.setId(registerRequestDto.getId());
         patientRepository.save(patient);
       }
 
@@ -72,7 +73,8 @@ public class PatientServiceImpl implements PatientService {
     PatientDto patientDto = new PatientDto();
     patientDto.setId(patient.getId());
     patientDto.setPatientId(patient.getPatientId());
-    patientDto.setName(patient.getName());
+    patientDto.setFirstName(patient.getFirstName());
+    patientDto.setLastName(patient.getLastName());
     patientDto.setAddress(patient.getAddress());
     patientDto.setEmail(patient.getEmail());
     patientDto.setAge(patient.getAge());
@@ -85,7 +87,8 @@ public class PatientServiceImpl implements PatientService {
   private Patient setPatientDtoData(PatientDto patientDto){
     Patient patient = new Patient();
     patient.setPatientId(patientDto.getPatientId());
-    patient.setName(patientDto.getName());
+    patient.setFirstName(patientDto.getFirstName());
+    patient.setLastName(patientDto.getLastName());
     patient.setAddress(patientDto.getAddress());
     patient.setEmail(patientDto.getEmail());
     patient.setAge(patientDto.getAge());
@@ -95,5 +98,17 @@ public class PatientServiceImpl implements PatientService {
 
     return patient;
   }
-
+  public Patient setRegisterData(RegisterRequestDto registerRequestDto){
+    Patient patient = new Patient();
+    patient.setPatientId(registerRequestDto.getUserId());
+    patient.setFirstName(registerRequestDto.getFirstName());
+    patient.setLastName(registerRequestDto.getLastName());
+    patient.setAddress(registerRequestDto.getAddress());
+    patient.setEmail(registerRequestDto.getEmail());
+    patient.setAge(registerRequestDto.getAge());
+    patient.setTelNumber(registerRequestDto.getTelNumber());
+    patient.setGender(registerRequestDto.getGender());
+    patient.setNic(registerRequestDto.getNic());
+    return patient;
+  }
 }

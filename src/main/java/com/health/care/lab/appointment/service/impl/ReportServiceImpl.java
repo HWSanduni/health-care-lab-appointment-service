@@ -10,18 +10,41 @@ import com.health.care.lab.appointment.entity.Report;
 import com.health.care.lab.appointment.entity.Technician;
 import com.health.care.lab.appointment.repository.ReportRepository;
 import com.health.care.lab.appointment.service.ReportService;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ReportServiceImpl implements ReportService {
 
   @Autowired
   private ReportRepository reportRepository;
+
+  @Value("${upload.directory}")
+  private String uploadDirectory;
+
+  @Override
+  public void uploadFile(MultipartFile file, String name) {
+    Path uploadPath = Paths.get(uploadDirectory);
+    try {
+      if (!Files.exists(uploadPath)) {
+        Files.createDirectories(uploadPath);
+      }
+      Files.copy(file.getInputStream(), uploadPath.resolve(name));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   @Override
   public void saveAndUpdateReport(ReportDto reportDto) {
 
@@ -38,6 +61,10 @@ public class ReportServiceImpl implements ReportService {
 
   @Override
   public ReportDto getReport(String name, String nic, String reportId) {
+
+
+
+
     return null;
   }
 

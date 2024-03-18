@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/v1/authentication")
-@CrossOrigin
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class AuthenticationController {
 
   @Autowired
   private AuthenticationService authenticationService;
 
-  @PostMapping("/singIn")
+  @PostMapping("/login")
   public ResponseEntity<LabAppointmentResponse> signIn (@RequestBody LoginDto loginDto){
     LabAppointmentResponse labAppointmentResponse = new LabAppointmentResponse();
 
@@ -34,7 +34,7 @@ public class AuthenticationController {
     return ResponseEntity.ok(labAppointmentResponse);
   }
 
-  @PostMapping("/singUp")
+  @PostMapping("/registration")
   public ResponseEntity<LabAppointmentResponse> signUp (@RequestBody RegisterRequestDto registerRequestDto){
     LabAppointmentResponse labAppointmentResponse = new LabAppointmentResponse();
     AuthenticationResponse authenticate = authenticationService.singUp(registerRequestDto);

@@ -1,5 +1,6 @@
 package com.health.care.lab.appointment.controller;
 
+import com.health.care.lab.appointment.dto.RegisterRequestDto;
 import com.health.care.lab.appointment.dto.TechnicianDto;
 import com.health.care.lab.appointment.dto.response.LabAppointmentResponse;
 import com.health.care.lab.appointment.service.TechnicianService;
@@ -29,12 +30,12 @@ public class TechnicianController {
   private TechnicianService technicianService;
 
   @PostMapping("/save-technician")
-  public ResponseEntity<LabAppointmentResponse> saveTechnician(@RequestBody TechnicianDto technicianDto){
+  public ResponseEntity<LabAppointmentResponse> saveTechnician(@RequestBody RegisterRequestDto registerRequestDto){
 
-    LOGGER.info("Save technician  :request={}", technicianDto);
+    LOGGER.info("Save technician  :request={}", registerRequestDto);
     LabAppointmentResponse labAppointmentResponse = new LabAppointmentResponse();
     try {
-      technicianService.saveAndUpdateTechnician(technicianDto);
+      technicianService.saveAndUpdateTechnician(registerRequestDto);
       labAppointmentResponse.setStatus(HttpStatus.OK);
       labAppointmentResponse.setMessage("Technician saved successfully");
     }catch (Exception e){
@@ -46,13 +47,11 @@ public class TechnicianController {
     return ResponseEntity.ok(labAppointmentResponse);
   }
   @GetMapping("/get-technician")
-  public ResponseEntity<LabAppointmentResponse> gettechnician(@RequestParam(value = "name",required = false) String name,
-      @RequestParam(value = "nic",required = false) String nic,
-      @RequestParam(value = "technicianId",required = false) String technicianId) {
-    LOGGER.info("Get technician request  :name={} | nic={} | technicianId={}",name,nic,technicianId);
+  public ResponseEntity<LabAppointmentResponse> gettechnician(@RequestParam(value = "technicianId",required = false) String technicianId) {
+    LOGGER.info("Get technician request  :technicianId={}",technicianId);
     LabAppointmentResponse labAppointmentResponse = new LabAppointmentResponse();
     try {
-      TechnicianDto technicianDto = technicianService.getTechnician(name,nic,technicianId);
+      TechnicianDto technicianDto = technicianService.getTechnician(technicianId);
       labAppointmentResponse.setStatus(HttpStatus.OK);
       labAppointmentResponse.setMessage("technician detail retrieved successfully");
       labAppointmentResponse.setData(technicianDto);
@@ -82,11 +81,11 @@ public class TechnicianController {
     return ResponseEntity.ok(labAppointmentResponse);
   }
   @PutMapping("/update-technician")
-  public ResponseEntity<LabAppointmentResponse> updateTechnician(@RequestBody TechnicianDto technicianDto){
-    LOGGER.info("Update technician  :request={}", technicianDto);
+  public ResponseEntity<LabAppointmentResponse> updateTechnician(@RequestBody RegisterRequestDto registerRequestDto){
+    LOGGER.info("Update technician  :request={}", registerRequestDto);
     LabAppointmentResponse labAppointmentResponse = new LabAppointmentResponse();
     try {
-      technicianService.saveAndUpdateTechnician(technicianDto);
+      technicianService.saveAndUpdateTechnician(registerRequestDto);
       labAppointmentResponse.setStatus(HttpStatus.OK);
       labAppointmentResponse.setMessage("technician update successfully");
     }catch (Exception e){
