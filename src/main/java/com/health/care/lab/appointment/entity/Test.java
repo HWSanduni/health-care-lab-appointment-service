@@ -1,5 +1,6 @@
 package com.health.care.lab.appointment.entity;
 
+import com.health.care.lab.appointment.enums.StatusType;
 import com.health.care.lab.appointment.enums.TestType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,7 +14,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "test")
 public class Test {
@@ -23,11 +26,15 @@ public class Test {
   private Long id;
 
   @Column(name = "test_id")
-  private Long testId;
+  private String testId;
 
   @Column(name = "test_type")
   @Enumerated(EnumType.STRING)
   private TestType testType;
+
+  @Column(name = "status")
+  @Enumerated(EnumType.STRING)
+  private StatusType status;
 
   @Column(name = "created_date")
   private LocalDateTime createdDate;
